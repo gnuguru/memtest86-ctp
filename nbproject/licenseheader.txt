@@ -1,0 +1,12 @@
+<#if licenseFirst??>
+${licenseFirst}
+</#if>
+${licensePrefix}ctp.h - MemTest-86  Version 5.31b
+${licensePrefix}
+${licensePrefix}Released under version 2 of the Gnu Public License.
+${licensePrefix}By Chris Brady
+${licensePrefix}
+${licensePrefix}CTP tests by yflelite@gmail.com
+<#if licenseLast??>
+${licenseLast}
+</#if>
