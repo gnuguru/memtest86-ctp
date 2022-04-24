@@ -1,0 +1,36 @@
+rm -f *.o *.s *.iso memtest.bin memtest memtest_shared \
+	memtest_shared.bin memtest.iso run_self_test self_test
+gcc -E -traditional head.S -o head.s
+as -32   -o head.o head.s
+gcc -Wall -Werror -march=i486 -m32 -O1 -fomit-frame-pointer -fno-builtin -ffreestanding -fPIC  -fno-stack-protector   -c -o reloc.o reloc.c
+gcc -Wall -Werror -march=i486 -m32 -O1 -fomit-frame-pointer -fno-builtin -ffreestanding -fPIC  -fno-stack-protector   -c -o main.o main.c
+gcc -Wall -Werror -march=i486 -m32 -O1 -fomit-frame-pointer -fno-builtin -ffreestanding -fPIC  -fno-stack-protector   -c -o test.o test.c
+gcc -Wall -Werror -march=i486 -m32 -O1 -fomit-frame-pointer -fno-builtin -ffreestanding -fPIC  -fno-stack-protector   -c -o init.o init.c
+gcc -Wall -Werror -march=i486 -m32 -O1 -fomit-frame-pointer -fno-builtin -ffreestanding -fPIC  -fno-stack-protector   -c -o lib.o lib.c
+gcc -Wall -Werror -march=i486 -m32 -O1 -fomit-frame-pointer -fno-builtin -ffreestanding -fPIC  -fno-stack-protector   -c -o patn.o patn.c
+gcc -Wall -Werror -march=i486 -m32 -O1 -fomit-frame-pointer -fno-builtin -ffreestanding -fPIC  -fno-stack-protector   -c -o screen_buffer.o screen_buffer.c
+gcc -Wall -Werror -march=i486 -m32 -O1 -fomit-frame-pointer -fno-builtin -ffreestanding -fPIC  -fno-stack-protector   -c -o config.o config.c
+gcc -Wall -Werror -march=i486 -m32 -O1 -fomit-frame-pointer -fno-builtin -ffreestanding -fPIC  -fno-stack-protector   -c -o cpuid.o cpuid.c
+gcc -Wall -Werror -march=i486 -m32 -O1 -fomit-frame-pointer -fno-builtin -ffreestanding -fPIC  -fno-stack-protector   -c -o linuxbios.o linuxbios.c
+gcc -Wall -Werror -march=i486 -m32 -O1 -fomit-frame-pointer -fno-builtin -ffreestanding -fPIC  -fno-stack-protector   -c -o pci.o pci.c
+gcc -Wall -Werror -march=i486 -m32 -O1 -fomit-frame-pointer -fno-builtin -ffreestanding -fPIC  -fno-stack-protector   -c -o spd.o spd.c
+gcc -Wall -Werror -march=i486 -m32 -O1 -fomit-frame-pointer -fno-builtin -ffreestanding -fPIC  -fno-stack-protector   -c -o error.o error.c
+gcc -Wall -Werror -march=i486 -m32 -O1 -fomit-frame-pointer -fno-builtin -ffreestanding -fPIC  -fno-stack-protector   -c -o dmi.o dmi.c
+gcc -Wall -Werror -march=i486 -m32 -O1 -fomit-frame-pointer -fno-builtin -ffreestanding -fPIC  -fno-stack-protector   -c -o controller.o controller.c
+gcc -Wall -Werror -march=i486 -m32 -O1 -fomit-frame-pointer -fno-builtin -ffreestanding -fPIC  -fno-stack-protector   -c -o smp.o smp.c
+gcc -Wall -Werror -march=i486 -m32 -O1 -fomit-frame-pointer -fno-builtin -ffreestanding -fPIC  -fno-stack-protector   -c -o vmem.o vmem.c
+gcc -Wall -Werror -march=i486 -m32 -O0 -fomit-frame-pointer -fno-builtin -ffreestanding -fPIC  -fno-stack-protector   -c -o memsize.o memsize.c
+gcc -c -Wall -march=i486 -m32 -O3 -fomit-frame-pointer -fno-builtin -ffreestanding random.c
+ld --warn-constructors --warn-common -static -T memtest_shared.lds \
+ -o memtest_shared head.o reloc.o main.o test.o init.o lib.o patn.o screen_buffer.o config.o cpuid.o linuxbios.o pci.o spd.o error.o dmi.o controller.o smp.o vmem.o memsize.o random.o && \
+ld -shared -Bsymbolic -T memtest_shared.lds -o memtest_shared head.o reloc.o main.o test.o init.o lib.o patn.o screen_buffer.o config.o cpuid.o linuxbios.o pci.o spd.o error.o dmi.o controller.o smp.o vmem.o memsize.o random.o
+ld: random.o: warning: relocation in read-only section `.text'
+ld: warning: creating DT_TEXTREL in a shared object
+objcopy -O binary memtest_shared memtest_shared.bin
+gcc -E -traditional bootsect.S -o bootsect.s
+as -32   -o bootsect.o bootsect.s
+gcc -E -traditional setup.S -o setup.s
+as -32   -o setup.o setup.s
+ld -T memtest.bin.lds bootsect.o setup.o -b binary \
+memtest_shared.bin -o memtest.bin
+ld -s -T memtest.lds -b binary memtest_shared.bin -o memtest

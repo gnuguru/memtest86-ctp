@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="100">
+  <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
+    <df root="." name="0">
+      <in>bootsect.S</in>
+      <in>bootsect.s</in>
+      <in>config.c</in>
+      <in>config.h</in>
+      <in>controller.c</in>
+      <in>controller.h</in>
+      <in>cpuid.c</in>
+      <in>cpuid.h</in>
+      <in>ctp.h</in>
+      <in>defs.h</in>
+      <in>dmi.c</in>
+      <in>dmi.h</in>
+      <in>elf.h</in>
+      <in>error.c</in>
+      <in>extra.c</in>
+      <in>extra.h</in>
+      <in>head.S</in>
+      <in>head.s</in>
+      <in>init.c</in>
+      <in>io.h</in>
+      <in>jedec_id.h</in>
+      <in>lib.c</in>
+      <in>linuxbios.c</in>
+      <in>linuxbios_tables.h</in>
+      <in>main.c</in>
+      <in>memsize.c</in>
+      <in>msr.h</in>
+      <in>mt86+_loader.asm</in>
+      <in>patn.c</in>
+      <in>pci.c</in>
+      <in>pci.h</in>
+      <in>random.c</in>
+      <in>reloc.c</in>
+      <in>screen_buffer.c</in>
+      <in>screen_buffer.h</in>
+      <in>self_test.c</in>
+      <in>serial.h</in>
+      <in>setup.S</in>
+      <in>setup.s</in>
+      <in>smp.c</in>
+      <in>smp.h</in>
+      <in>spd.c</in>
+      <in>spd.h</in>
+      <in>stddef.h</in>
+      <in>stdin.h</in>
+      <in>stdint.h</in>
+      <in>test.c</in>
+      <in>test.h</in>
+      <in>vmem.c</in>
+    </df>
+  </logicalFolder>
+  <projectmakefile>Makefile</projectmakefile>
+  <confs>
+    <conf name="Default" type="0">
+      <toolsSet>
+        <developmentServer>localhost</developmentServer>
+        <platform>2</platform>
+      </toolsSet>
+      <compile>
+        <compiledirpicklist>
+          <compiledirpicklistitem>.</compiledirpicklistitem>
+          <compiledirpicklistitem>${AUTO_FOLDER}</compiledirpicklistitem>
+        </compiledirpicklist>
+        <compiledir>${AUTO_FOLDER}</compiledir>
+        <compilecommandpicklist>
+          <compilecommandpicklistitem>${MAKE} ${ITEM_NAME}.o</compilecommandpicklistitem>
+          <compilecommandpicklistitem>${AUTO_COMPILE}</compilecommandpicklistitem>
+        </compilecommandpicklist>
+        <compilecommand>${AUTO_COMPILE}</compilecommand>
+      </compile>
+      <dbx_gdbdebugger version="1">
+        <gdb_pathmaps>
+        </gdb_pathmaps>
+        <gdb_interceptlist>
+          <gdbinterceptoptions gdb_all="false" gdb_unhandled="true" gdb_unexpected="true"/>
+        </gdb_interceptlist>
+        <gdb_options>
+          <DebugOptions>
+          </DebugOptions>
+        </gdb_options>
+        <gdb_buildfirst gdb_buildfirst_overriden="false" gdb_buildfirst_old="false"/>
+      </dbx_gdbdebugger>
+      <nativedebugger version="1">
+        <engine>gdb</engine>
+      </nativedebugger>
+      <runprofile version="9">
+        <runcommandpicklist>
+          <runcommandpicklistitem>"${OUTPUT_PATH}"</runcommandpicklistitem>
+        </runcommandpicklist>
+        <runcommand>"${OUTPUT_PATH}"</runcommand>
+        <rundir>.</rundir>
+        <buildfirst>false</buildfirst>
+        <terminal-type>0</terminal-type>
+        <remove-instrumentation>0</remove-instrumentation>
+        <environment>
+        </environment>
+      </runprofile>
+    </conf>
+  </confs>
+</configurationDescriptor>

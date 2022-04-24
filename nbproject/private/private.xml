@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <code-assistance-data xmlns="http://www.netbeans.org/ns/make-project-private/1">
+        <code-model-enabled>true</code-model-enabled>
+    </code-assistance-data>
+    <data xmlns="http://www.netbeans.org/ns/make-project-private/1">
+        <activeConfTypeElem>0</activeConfTypeElem>
+        <activeConfIndexElem>0</activeConfIndexElem>
+    </data>
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="23">
+        <file>
+            <url>test.c</url>
+            <bookmark id="5">
+                <name/>
+                <line>145</line>
+                <key/>
+            </bookmark>
+            <bookmark id="4">
+                <name/>
+                <line>160</line>
+                <key/>
+            </bookmark>
+            <bookmark id="23">
+                <name/>
+                <line>306</line>
+                <key/>
+            </bookmark>
+            <bookmark id="22">
+                <name/>
+                <line>460</line>
+                <key/>
+            </bookmark>
+            <bookmark id="21">
+                <name/>
+                <line>637</line>
+                <key/>
+            </bookmark>
+            <bookmark id="18">
+                <name/>
+                <line>732</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>main.c</url>
+            <bookmark id="15">
+                <name/>
+                <line>49</line>
+                <key/>
+            </bookmark>
+            <bookmark id="14">
+                <name/>
+                <line>680</line>
+                <key/>
+            </bookmark>
+            <bookmark id="13">
+                <name/>
+                <line>814</line>
+                <key/>
+            </bookmark>
+            <bookmark id="6">
+                <name/>
+                <line>854</line>
+                <key/>
+            </bookmark>
+            <bookmark id="7">
+                <name/>
+                <line>870</line>
+                <key/>
+            </bookmark>
+            <bookmark id="20">
+                <name/>
+                <line>875</line>
+                <key/>
+            </bookmark>
+            <bookmark id="19">
+                <name/>
+                <line>940</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>test.h</url>
+            <bookmark id="16">
+                <name/>
+                <line>262</line>
+                <key/>
+            </bookmark>
+        </file>
+    </editor-bookmarks>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/home/gnu/development/memtest86-ctp/main.c</file>
+        </group>
+    </open-files>
+</project-private>
