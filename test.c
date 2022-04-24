@@ -15,6 +15,7 @@
 #include "cpuid.h"
 #include "smp.h"
 #include "io.h"
+#include "ctp.h"
 
 extern struct cpu_ident cpu_id;
 extern volatile int    mstr_cpu;
@@ -301,6 +302,16 @@ STATIC void addr_tst2_check_segment(ulong* p,
          : "ecx"
          );
 }
+
+/* 
+ * CTP & inverted memory fill/verify 
+ * 
+ * Could use test 3 "Moving inversions, 1s & 0s Parallel" 
+ * and/or test 9 "Random number sequence" codes.  
+ * 
+ */
+
+
 
 /*
  * Memory address test, own address
@@ -612,6 +623,13 @@ STATIC void movinv1_top_down(ulong* start,
          : "ecx"
          );
 }
+
+/* 
+ * CTP spot stress test 
+ */
+
+
+
 
 /*
  * Test all of memory using a "moving inversions" algorithm using the

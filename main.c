@@ -60,6 +60,8 @@ struct tseq tseq[] =
      {1, 32,  9,  48, 0, "[Random number sequence]               "},
      {1, 32, 10,   6, 0, "[Modulo 20, Random pattern]            "},
      {1, 1,  11, 240, 0, "[Bit fade test, 2 patterns]            "},
+     {1, 32, 12,   1, 0, "[CTP & inverted memory fill/verify]    "},
+     {1, 1,  13,   1, 0, "[CTP spot stress]                      "},
      {1, 0,   0,   0, 0, NULL}
 };
 
