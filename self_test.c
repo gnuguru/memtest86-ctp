@@ -195,7 +195,12 @@ int main() {
     // TEST 11
     bit_fade_fill(0xdeadbeef, me);
     bit_fade_chk(0xdeadbeef, me);
-
+    
+    // Test 12
+    ctp_fill_verify(me);
+    
+    // Test 13
+    
 
     // Check sentinels, they should not have been overwritten. Do this last.
     for (int j=0; j<kSentinelBytes; j++) {

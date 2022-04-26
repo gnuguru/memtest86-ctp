@@ -10,6 +10,7 @@
       <in>controller.h</in>
       <in>cpuid.c</in>
       <in>cpuid.h</in>
+      <in>ctp.c</in>
       <in>ctp.h</in>
       <in>defs.h</in>
       <in>dmi.c</in>

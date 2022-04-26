@@ -994,6 +994,12 @@ int do_test(int my_ord)
         }
         BAILOUT;
         break;
+        
+    case 12: // CTP & inverted memory fill/verify 
+        break;
+        
+    case 13: // CTP spot stress 
+        break;
 
     case 90: /* Modulo 20 check, all ones and zeros (unused) */
         p1=0;

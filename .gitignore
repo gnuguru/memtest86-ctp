@@ -1,7 +1,7 @@
 *.o
 *.s
 memtest
-memtest.bin
+memtest.*
 memtest_shared
-memtest_shared.bin
+memtest_shared.*
 

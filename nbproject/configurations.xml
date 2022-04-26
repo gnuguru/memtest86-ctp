@@ -5,6 +5,7 @@
       <in>config.c</in>
       <in>controller.c</in>
       <in>cpuid.c</in>
+      <in>ctp.c</in>
       <in>ctp.h</in>
       <in>dmi.c</in>
       <in>error.c</in>
@@ -73,6 +74,8 @@
       <item path="cpuid.c" ex="false" tool="0" flavor2="0">
         <cTool flags="0">
         </cTool>
+      </item>
+      <item path="ctp.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="ctp.h" ex="false" tool="3" flavor2="0">
       </item>

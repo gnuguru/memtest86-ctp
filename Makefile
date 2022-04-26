@@ -17,7 +17,7 @@ CFLAGS= -Wall -Werror -march=i486 -m32 -O1 -fomit-frame-pointer -fno-builtin \
 
 SELF_TEST_CFLAGS = -Wall -Werror -march=i486 -m32 -O1 -g
 
-OBJS= head.o reloc.o main.o test.o init.o lib.o patn.o screen_buffer.o \
+OBJS= head.o reloc.o main.o test.o ctp.o init.o lib.o patn.o screen_buffer.o \
       config.o cpuid.o linuxbios.o pci.o spd.o error.o dmi.o controller.o \
       smp.o vmem.o memsize.o random.o
 
