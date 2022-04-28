@@ -7,7 +7,7 @@
         <activeConfTypeElem>0</activeConfTypeElem>
         <activeConfIndexElem>0</activeConfIndexElem>
     </data>
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="28">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="33">
         <file>
             <url>test.c</url>
             <bookmark id="5">
@@ -20,39 +20,29 @@
                 <line>160</line>
                 <key/>
             </bookmark>
-            <bookmark id="28">
+            <bookmark id="29">
                 <name/>
-                <line>499</line>
+                <line>331</line>
                 <key/>
             </bookmark>
-            <bookmark id="27">
+            <bookmark id="28">
                 <name/>
-                <line>528</line>
+                <line>534</line>
                 <key/>
             </bookmark>
             <bookmark id="22">
                 <name/>
-                <line>624</line>
-                <key/>
-            </bookmark>
-            <bookmark id="21">
-                <name/>
-                <line>801</line>
-                <key/>
-            </bookmark>
-            <bookmark id="18">
-                <name/>
-                <line>896</line>
+                <line>659</line>
                 <key/>
             </bookmark>
             <bookmark id="26">
                 <name/>
-                <line>1624</line>
+                <line>1659</line>
                 <key/>
             </bookmark>
             <bookmark id="25">
                 <name/>
-                <line>1648</line>
+                <line>1683</line>
                 <key/>
             </bookmark>
         </file>
@@ -73,21 +63,6 @@
                 <line>814</line>
                 <key/>
             </bookmark>
-            <bookmark id="6">
-                <name/>
-                <line>854</line>
-                <key/>
-            </bookmark>
-            <bookmark id="7">
-                <name/>
-                <line>870</line>
-                <key/>
-            </bookmark>
-            <bookmark id="20">
-                <name/>
-                <line>875</line>
-                <key/>
-            </bookmark>
             <bookmark id="19">
                 <name/>
                 <line>940</line>
@@ -95,7 +70,12 @@
             </bookmark>
             <bookmark id="24">
                 <name/>
-                <line>998</line>
+                <line>1003</line>
+                <key/>
+            </bookmark>
+            <bookmark id="33">
+                <name/>
+                <line>1198</line>
                 <key/>
             </bookmark>
         </file>
@@ -103,7 +83,15 @@
             <url>test.h</url>
             <bookmark id="16">
                 <name/>
-                <line>263</line>
+                <line>264</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>ctp.c</url>
+            <bookmark id="30">
+                <name/>
+                <line>8206</line>
                 <key/>
             </bookmark>
         </file>
@@ -112,6 +100,8 @@
         <group>
             <file>file:/home/gnu/development/memtest86-ctp/ctp.c</file>
             <file>file:/home/gnu/development/memtest86-ctp/main.c</file>
+            <file>file:/home/gnu/development/memtest86-ctp/README</file>
+            <file>file:/home/gnu/development/memtest86-ctp/config.c</file>
             <file>file:/home/gnu/development/memtest86-ctp/test.c</file>
             <file>file:/home/gnu/development/memtest86-ctp/ctp.h</file>
             <file>file:/home/gnu/development/memtest86-ctp/random.c</file>

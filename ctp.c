@@ -8205,7 +8205,7 @@ static const unsigned long CTP[] = {
 }; 
 
 static unsigned long ctp_size; 
-static signed long iprv, idx, inxt; 
+static signed long iprv, idx, inxt, jdx=0; 
 
 unsigned long ctp_set(void) { 
     return ctp_set_top(); 
@@ -8259,18 +8259,29 @@ unsigned long ctp_down(void) {
     return CTP[idx--]; 
 }
 
-int ctp_getnxt (unsigned long *pat) { 
-    if (CTP[inxt] != -1) { 
-        *pat = CTP[inxt]; 
-        return 1; 
-    } 
-    return 0; 
+unsigned long ctp_getnxt (void) { 
+    unsigned long pat; 
+    
+    if (inxt != -1) 
+        pat = CTP[inxt]; 
+    else 
+        pat = CTP[ctp_size-1]; 
+    return pat; 
 }
 
-int ctp_getprv (unsigned long *pat) { 
-    if (CTP[iprv] != -1) { 
-        *pat = CTP[iprv]; 
-        return 1; 
-    } 
-    return 0; 
+unsigned long ctp_getprv (void) { 
+    unsigned long pat; 
+    
+    if (iprv != -1) 
+        pat = CTP[iprv]; 
+    else 
+        pat = CTP[0]; 
+    return pat; 
+}
+
+unsigned long ctp_rand(void) { 
+    unsigned long pat; 
+    pat = CTP[jdx--]; 
+    if (jdx < 0) jdx = ctp_size - 1; 
+    return pat; 
 }

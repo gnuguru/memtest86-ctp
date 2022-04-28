@@ -329,167 +329,285 @@ void addr_tst2(int me)
 typedef struct {
     int me;
     ulong pat;    
-} ctp_ctx;
+} ctpfv_ctx;
 
-STATIC void ctp_fill_verify_init(ulong* p,
-                         ulong len_dw, const void* vctx) {
+STATIC void ctp_fill_bottomup(ulong* p, ulong len_dw, const void* vctx) {
     ulong* pe = p + (len_dw - 1);
-//    const ctp_ctx* ctx = (const ctp_ctx*)vctx;
-    /* Original C code replaced with hand tuned assembly code */
+//    const ctpfv_ctx* ctx = (const ctp_ctx*)vctx;
+
     for (; p <= pe; p++) {
         *p = ctp_up(); 
     }
-
-/*
-    asm __volatile__
-        (
-         "jmp L200\n\t"
-         ".p2align 4,,7\n\t"
-         "L201:\n\t"
-         "addl $4,%%edi\n\t"
-         "L200:\n\t"
-         "pushl %%ecx\n\t"
-         "call rand\n\t"
-         "popl %%ecx\n\t"
-         "movl %%eax,(%%edi)\n\t"
-         "cmpl %%ebx,%%edi\n\t"
-         "jb L201\n\t"
-         : : "D" (p), "b" (pe), "c" (ctx->me)
-         : "eax"
-         );
-*/
 }
 
-STATIC void ctp_fill_verify_body(ulong* p, ulong len_dw, const void* vctx) {
+STATIC void ctp_verify_bottomup(ulong* p, ulong len_dw, const void* vctx) {
     ulong* pe = p + (len_dw - 1);
-    const ctp_ctx* ctx = (const ctp_ctx*)vctx;
+//    const ctpfv_ctx* ctx = (const ctp_ctx*)vctx;
+    ulong pat, dat; 
 
-    /* Original C code replaced with hand tuned assembly code */
-				
-    /*for (; p <= pe; p++) {
-      num = rand(me);
-      if (i) {
-      num = ~num;
-      }
-      if ((bad=*p) != num) {
-      mt86_error((ulong*)p, num, bad);
-      }
-      *p = ~num;
-      }*/
+    for (; p <= pe; p++) {
+        pat = ctp_up(); 
+        if ((dat=*p) != pat) {
+            mt86_error((ulong*)p, pat, dat);
+        }
+    }
+}
 
-    asm __volatile__
-        (
-         "pushl %%ebp\n\t"
+STATIC void ctp_fill_topdown(ulong* p, ulong len_dw, const void* vctx) {
+//    const ctpfv_ctx* ctx = (const ctp_ctx*)vctx;
+    ulong* pe = p; 
+    p += (len_dw - 1);
 
-/*
-         // Skip first increment
-         "jmp L26\n\t"
-         ".p2align 4,,7\n\t"
+    for (; p >= pe; p--) {
+        *p = ctp_down(); 
+    }
+}
 
-         // increment 4 bytes (32-bits)
-         "L27:\n\t"
-         "addl $4,%%edi\n\t"
+STATIC void ctp_verify_topdown(ulong* p, ulong len_dw, const void* vctx) {
+//    const ctpfv_ctx* ctx = (const ctp_ctx*)vctx;
+    ulong pat, dat; 
+    ulong* pe = p; 
+    p += (len_dw - 1);
 
-         // Check this byte
-         "L26:\n\t"
+    for (; p >= pe; p--) {
+        pat = ctp_down(); 
+        if ((dat=*p) != pat) {
+            mt86_error((ulong*)p, pat, dat);
+        }
+    }
+}
 
-         // Get next random number, pass in me(edx), random value returned in num(eax)
-         // num = rand(me);
-         // cdecl call maintains all registers except eax, ecx, and edx
-         // We maintain edx with a push and pop here using it also as an input
-         // we don't need the current eax value and want it to change to the return value
-         // we overwrite ecx shortly after this discarding its current value
-         "pushl %%edx\n\t" // Push function inputs onto stack
-         "call rand\n\t"
-         "popl %%edx\n\t" // Remove function inputs from stack
+STATIC void ctp_fill_inv_bottomup(ulong* p, ulong len_dw, const void* vctx) {
+    ulong pat_; 
+    ulong* pe = p + (len_dw - 1);
+//    const ctpfv_ctx* ctx = (const ctp_ctx*)vctx;
 
-         // XOR the random number with xorVal(ebx), which is either 0xffffffff or 0 depending on the outer loop
-         // if (i) { num = ~num; }
-         "xorl %%ebx,%%eax\n\t"
+    for (; p <= pe; p++) {
+        pat_ = ~ctp_up(); 
+        *p = pat_; 
+    }
+}
 
-         // Move the current value of the current position p(edi) into bad(ecx)
-         // (bad=*p)
-         "movl (%%edi),%%ecx\n\t"
+STATIC void ctp_verify_inv_bottomup(ulong* p, ulong len_dw, const void* vctx) {
+    ulong* pe = p + (len_dw - 1);
+//    const ctpfv_ctx* ctx = (const ctp_ctx*)vctx;
+    ulong pat_, dat; 
 
-         // Compare bad(ecx) to num(eax)
-         "cmpl %%eax,%%ecx\n\t"
+    for (; p <= pe; p++) {
+        pat_ = ~ctp_up(); 
+        if ((dat=*p) != pat_) {
+            mt86_error((ulong*)p, pat_, dat);
+        }
+    }
+}
 
-         // If not equal jump the error case
-         "jne L23\n\t"
+STATIC void ctp_fill_inv_topdown(ulong* p, ulong len_dw, const void* vctx) {
+    ulong pat_; 
+//    const ctpfv_ctx* ctx = (const ctp_ctx*)vctx;
+    ulong* pe = p; 
+    p += (len_dw - 1);
 
-         // Set a new value or not num(eax) at the current position p(edi)
-         // *p = ~num;
-         "L25:\n\t"
-         "movl $0xffffffff,%%ebp\n\t"
-         "xorl %%ebp,%%eax\n\t"
-         "movl %%eax,(%%edi)\n\t"
+    for (; p >= pe; p--) {
+        pat_ = ~ctp_down(); 
+        *p = pat_; 
+    }
+}
 
-         // Loop until current position p(edi) equals the end position pe(esi)
-         "cmpl %%esi,%%edi\n\t"
-         "jb L27\n\t"
-         "jmp L24\n"
+STATIC void ctp_verify_inv_topdown(ulong* p, ulong len_dw, const void* vctx) {
+//    const ctpfv_ctx* ctx = (const ctp_ctx*)vctx;
+    ulong pat_, dat; 
+    ulong* pe = p; 
+    p += (len_dw - 1);
 
-         // Error case
-         "L23:\n\t"
-         // Must manually maintain eax, ecx, and edx as part of cdecl call convention
-         "pushl %%edx\n\t"
-         "pushl %%ecx\n\t" // Next three pushes are functions input
-         "pushl %%eax\n\t"
-         "pushl %%edi\n\t"
-         "call mt86_error\n\t"
-         "popl %%edi\n\t" // Remove function inputs from stack and restore register values
-         "popl %%eax\n\t"
-         "popl %%ecx\n\t"
-         "popl %%edx\n\t"
-         "jmp L25\n" 
-
-         "L24:\n\t"
-*/
-         "popl %%ebp\n\t"
-         :: "D" (p), "S" (pe), "b" (ctx->pat),
-          "d" (ctx->me)
-         : "eax", "ecx"
-         );
+    for (; p >= pe; p--) {
+        pat_ = ~ctp_down(); 
+        if ((dat=*p) != pat_) {
+            mt86_error((ulong*)p, pat_, dat);
+        }
+    }
 }
 
 void ctp_fill_verify(int me)
 {
-    int i, seed1, seed2;
-
-    ctp_ctx ctx;
+    int i; 
+    ctpfv_ctx ctx;
     ctx.me = me;
-    ctx.pat = 0;
-
-    /* Initialize memory with initial sequence of random numbers.  */
-    if (cpu_id.fid.bits.rdtsc) {
-        asm __volatile__ ("rdtsc":"=a" (seed1),"=d" (seed2));
-    } else {
-        seed1 = 521288629 + vv->pass;
-        seed2 = 362436069 - vv->pass;
-    }
-
-    /* Display the current seed */
-    if (mstr_cpu == me) hprint(LINE_PAT, COL_PAT, seed1);
-    rand_seed(seed1, seed2, me);
-
-    sliced_foreach_segment(&ctx, me, ctp_fill_verify_init);
+ 
+    // run an NV-order seq 
+    // fill & verify CTP from bottom up 
+    ctx.pat = ctp_rst();
+    if (mstr_cpu == me) hprint(LINE_PAT, COL_PAT, ctx.pat);
+    sliced_foreach_segment(&ctx, me, ctp_fill_bottomup);
+    { BAILR }
+    ctx.pat = ctp_rst(); 
+    sliced_foreach_segment(&ctx, me, ctp_verify_bottomup);
+    { BAILR }
+    ctx.pat = ~ctp_rst();
+    if (mstr_cpu == me) hprint(LINE_PAT, COL_PAT, ctx.pat);
+    sliced_foreach_segment(&ctx, me, ctp_fill_inv_bottomup);
+    { BAILR }
+    ctx.pat = ~ctp_rst(); 
+    sliced_foreach_segment(&ctx, me, ctp_verify_inv_bottomup);
     { BAILR }
 
-    /* Do moving inversions test. Check for initial pattern and then
-     * write the complement for each memory location.
-     */
-    for (i=0; i<2; i++) {
-        rand_seed(seed1, seed2, me);
+    for (i=0; i<2; i++) { 
+    // fill & verify CTP from top down
+    ctx.pat = ctp_set();
+    if (mstr_cpu == me) hprint(LINE_PAT, COL_PAT, ctx.pat);
+    sliced_foreach_segment(&ctx, me, ctp_fill_topdown);
+    { BAILR }
+    ctx.pat = ctp_set();
+    sliced_foreach_segment(&ctx, me, ctp_verify_topdown);
+    { BAILR }
+    ctx.pat = ~ctp_set();
+    if (mstr_cpu == me) hprint(LINE_PAT, COL_PAT, ctx.pat);
+    sliced_foreach_segment(&ctx, me, ctp_fill_inv_topdown);
+    { BAILR }
+    ctx.pat = ~ctp_set();
+    sliced_foreach_segment(&ctx, me, ctp_verify_inv_topdown);
+    { BAILR }   
+    // fill & verify CTP from bottom up 
+    ctx.pat = ctp_rst();
+    if (mstr_cpu == me) hprint(LINE_PAT, COL_PAT, ctx.pat);
+    sliced_foreach_segment(&ctx, me, ctp_fill_bottomup);
+    { BAILR }
+    ctx.pat = ctp_rst(); 
+    sliced_foreach_segment(&ctx, me, ctp_verify_bottomup);
+    { BAILR }
+    ctx.pat = ~ctp_rst();
+    if (mstr_cpu == me) hprint(LINE_PAT, COL_PAT, ctx.pat);
+    sliced_foreach_segment(&ctx, me, ctp_fill_inv_bottomup);
+    { BAILR }
+    ctx.pat = ~ctp_rst(); 
+    sliced_foreach_segment(&ctx, me, ctp_verify_inv_bottomup);
+    { BAILR } 
+    } 
+} 
 
-        if (i) {
-            ctx.pat = 0xffffffff;
-        } else {
-            ctx.pat = 0;
-        }
+typedef struct {
+    int me;
+    int iter; 
+    ulong pat;    
+} ctpss_ctx;
 
-        sliced_foreach_segment(&ctx, me, ctp_fill_verify_body);
-        { BAILR }
+STATIC void ctp_ss_bottomup(ulong* p, ulong len_dw, const void* vctx) { 
+    int i; 
+    ulong pat, pat_, dat, patprv, patnxt; 
+    ulong *pnx, *ppv; 
+    ulong *ps = p; 
+    ulong *pe = p + (len_dw - 1);
+    const ctpss_ctx* ctx = (const ctpss_ctx*)vctx;
+
+    for (; p <= pe; p++) {
+        for (i=0; i < ctx->iter; i++) { 
+            pat = ctp_rand(); 
+            pat_ = ~pat; 
+            *p = pat_; 
+            *p = pat; 
+            *p = pat_; 
+            *p = pat; 
+            if ((dat=*p) != pat) mt86_error((ulong*)p, pat, dat); 
+            // check if adjacent words disturbed 
+            if (p != ps) { 
+                ppv = p - 1; 
+                patprv = ctp_getprv(); 
+                if ((dat=*ppv) != patprv) mt86_error((ulong*)ppv, patprv, dat); 
+            } 
+            pnx = p + 1; 
+            patnxt = ctp_getnxt(); 
+            if ((dat=*pnx) != patnxt) mt86_error((ulong*)pnx, patnxt, dat); 
+            *p = pat; 
+            *p = pat_; 
+            *p = pat; 
+            *p = pat_; 
+            if ((dat=*p) != pat_) mt86_error((ulong*)p, pat_, dat); 
+            if (p != ps) 
+                if ((dat=*ppv) != patprv) mt86_error((ulong*)ppv, patprv, dat); 
+            if ((dat=*pnx) != patnxt) mt86_error((ulong*)pnx, patnxt, dat); 
+        } 
+        *p = ctp_up(); 
     }
+}
+
+STATIC void ctp_ss_topdown(ulong* p, ulong len_dw, const void* vctx) { 
+    int i; 
+    ulong pat, pat_, dat, patprv, patnxt; 
+    ulong *pnx, *ppv; 
+    ulong *pe = p; 
+    ulong *ps = p + (len_dw - 1);
+    const ctpss_ctx* ctx = (const ctpss_ctx*)vctx;
+
+    p = ps; 
+    for (; p >= pe; p--) {
+        for (i=0; i < ctx->iter; i++) { 
+            pat = ctp_rand(); 
+            pat_ = ~pat; 
+            *p = pat_; 
+            *p = pat; 
+            *p = pat_; 
+            *p = pat; 
+            if ((dat=*p) != pat) mt86_error((ulong*)p, pat, dat); 
+            // check if adjacent words disturbed 
+            if (p != ps) { 
+                pnx = p + 1; 
+                patnxt = ctp_getnxt(); 
+                if ((dat=*pnx) != patnxt) mt86_error((ulong*)pnx, patnxt, dat); 
+            } 
+            ppv = p - 1; 
+            patprv = ctp_getprv(); 
+            if ((dat=*ppv) != patprv) mt86_error((ulong*)ppv, patprv, dat); 
+            *p = pat; 
+            *p = pat_; 
+            *p = pat; 
+            *p = pat_; 
+            if ((dat=*p) != pat_) mt86_error((ulong*)p, pat_, dat); 
+            if (p != ps) 
+                if ((dat=*pnx) != patnxt) mt86_error((ulong*)pnx, patnxt, dat); 
+            if ((dat=*ppv) != patprv) mt86_error((ulong*)ppv, patprv, dat); 
+        } 
+        *p = ctp_down(); 
+    }
+}
+
+void ctp_ss(int iter, int me) { 
+    int i; 
+    ctpss_ctx ctx;
+    ctx.me = me;
+    ctx.iter = iter; 
+    
+    // run an NV-order sequence (up-down-up-down-up) 
+    ctx.pat = ctp_rst();
+    if (mstr_cpu == me) hprint(LINE_PAT, COL_PAT, ctx.pat);
+    sliced_foreach_segment(&ctx, me, ctp_fill_bottomup);
+    { BAILR }
+    ctx.pat = ctp_rst();
+    sliced_foreach_segment(&ctx, me, ctp_ss_bottomup);
+    { BAILR }
+    ctx.pat = ctp_rst(); 
+    sliced_foreach_segment(&ctx, me, ctp_verify_bottomup);
+    { BAILR }
+    for (i=0; i<2; i++) { 
+        ctx.pat = ctp_set(); 
+        if (mstr_cpu == me) hprint(LINE_PAT, COL_PAT, ctx.pat);
+        sliced_foreach_segment(&ctx, me, ctp_fill_topdown);
+        { BAILR }
+        ctx.pat = ctp_set(); 
+        sliced_foreach_segment(&ctx, me, ctp_ss_topdown);
+        { BAILR }
+        ctx.pat = ctp_set();
+        sliced_foreach_segment(&ctx, me, ctp_verify_topdown);
+        { BAILR } 
+        ctx.pat = ctp_rst();
+        if (mstr_cpu == me) hprint(LINE_PAT, COL_PAT, ctx.pat);
+        sliced_foreach_segment(&ctx, me, ctp_fill_bottomup);
+        { BAILR }
+        ctx.pat = ctp_rst();
+        sliced_foreach_segment(&ctx, me, ctp_ss_bottomup);
+        { BAILR }
+        ctx.pat = ctp_rst(); 
+        sliced_foreach_segment(&ctx, me, ctp_verify_bottomup);
+        { BAILR }
+    } 
 }
 
 typedef struct {

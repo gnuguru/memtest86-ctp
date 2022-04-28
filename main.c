@@ -61,7 +61,7 @@ struct tseq tseq[] =
      {1, 32, 10,   6, 0, "[Modulo 20, Random pattern]            "},
      {1, 1,  11, 240, 0, "[Bit fade test, 2 patterns]            "},
      {1, 32, 12,   1, 0, "[CTP & inverted memory fill/verify]    "},
-     {1, 1,  13,   1, 0, "[CTP spot stress]                      "},
+     {1, 1,  13,  16, 0, "[CTP spot stress]                      "},
      {1, 0,   0,   0, 0, NULL}
 };
 
@@ -996,9 +996,17 @@ int do_test(int my_ord)
         break;
         
     case 12: // CTP & inverted memory fill/verify 
+        for (i=0; i < c_iter; i++) {
+            s_barrier();
+            ctp_fill_verify(my_ord);
+            BAILOUT;
+        }
         break;
         
     case 13: // CTP spot stress 
+            s_barrier();
+            ctp_ss(c_iter, my_ord);
+            BAILOUT;
         break;
 
     case 90: /* Modulo 20 check, all ones and zeros (unused) */
@@ -1186,6 +1194,16 @@ static int find_ticks_for_test(int tst)
         // We also sleep for '2*iter' seconds and tick once per second
         const int sleep_ticks = iter * 2;
         ticks = loop_ticks + sleep_ticks;
+        break;
+    }
+    case 12: { /* CTP fill & verify */
+        const int each_ctpfv = 2 * ch; 
+        ticks = each_ctpfv * iter;     // We call it iter times
+        break;
+    }
+    case 13: { /* CTP spot stress */
+        const int each_ctpss = (14 * iter + 3) * ch; 
+        ticks = each_ctpss * 5;     // don't know what this should be called.. let's just try 5x here.. (NV order seq) 
         break;
     }
     case 90: { /* Modulo 20 check, all ones and zeros (unused) */

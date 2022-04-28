@@ -137,6 +137,7 @@ void movinv32(int iter, ulong p1, ulong lb, ulong mb, int sval, int off,
 	int cpu);
 void modtst(int off, int iter, ulong p1, ulong p2, int cpu);
 void ctp_fill_verify(int cpu);
+void ctp_ss(int iter, int cpu); 
 #define ASSERT(n) do {                   \
     if (!(n)) {                          \
         assert_fail(__FILE__, __LINE__); \

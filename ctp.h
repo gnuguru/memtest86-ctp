@@ -27,8 +27,9 @@ unsigned long ctp_rst(void);
 unsigned long ctp_rst_zero(void); 
 unsigned long ctp_up(void); 
 unsigned long ctp_down(void); 
-int ctp_getnxt (unsigned long *pat); 
-int ctp_getprv (unsigned long *pat); 
+unsigned long ctp_getnxt (void); 
+unsigned long ctp_getprv (void); 
+unsigned long ctp_rand(void); 
 
 #ifdef __cplusplus
 }
