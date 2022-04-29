@@ -1197,7 +1197,7 @@ static int find_ticks_for_test(int tst)
         break;
     }
     case 12: { /* CTP fill & verify */
-        const int each_ctpfv = 2 * ch; 
+        const int each_ctpfv = 4 * ch * 5; 
         ticks = each_ctpfv * iter;     // We call it iter times
         break;
     }

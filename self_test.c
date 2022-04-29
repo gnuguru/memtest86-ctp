@@ -200,7 +200,7 @@ int main() {
     ctp_fill_verify(me);
     
     // Test 13
-    
+    ctp_ss(iter, me);
 
     // Check sentinels, they should not have been overwritten. Do this last.
     for (int j=0; j<kSentinelBytes; j++) {
