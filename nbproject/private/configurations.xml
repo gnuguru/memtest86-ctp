@@ -3,6 +3,7 @@
   <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
     <df root="." name="0">
       <in>bootsect.S</in>
+      <in>bootsect.s</in>
       <in>config.c</in>
       <in>config.h</in>
       <in>controller.c</in>
@@ -19,6 +20,7 @@
       <in>extra.c</in>
       <in>extra.h</in>
       <in>head.S</in>
+      <in>head.s</in>
       <in>init.c</in>
       <in>io.h</in>
       <in>jedec_id.h</in>
@@ -39,6 +41,7 @@
       <in>self_test.c</in>
       <in>serial.h</in>
       <in>setup.S</in>
+      <in>setup.s</in>
       <in>smp.c</in>
       <in>smp.h</in>
       <in>spd.c</in>
